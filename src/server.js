@@ -16,8 +16,10 @@ io.on('connection', socket => {
     })
 });
 
+const dbUrl = process.env.DB_URL || 'mongodb://marco:102030@105.103.67.21:27025/box?retryWrites=true'
+
 mongoose.connect(
-    'mongodb://marco:102030@105.103.67.21:27025/box?retryWrites=true',
+    dbUrl,
     { useNewUrlParser: true }
 );
 
