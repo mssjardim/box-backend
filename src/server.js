@@ -10,22 +10,20 @@ app.use(cors());
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-io.on('connection', socket => {
-    socket.on('connectRoom', box => {
-        socket.join(box);
-    })
+io.on('connection', (socket) => {
+  socket.on('connectRoom', (box) => {
+    socket.join(box);
+  });
 });
 
-const dbUrl = process.env.DB_URL || 'mongodb://marco:102030@105.103.67.21:27025/box?retryWrites=true'
-
 mongoose.connect(
-    dbUrl,
-    { useNewUrlParser: true }
+  process.env.DB_URL || 'mongodb://localhost:27017/box?retryWrites=true',
+  { useNewUrlParser: true },
 );
 
 app.use((req, res, next) => {
-    req.io = io;
-    return next();
+  req.io = io;
+  return next();
 });
 
 app.use(express.json());
